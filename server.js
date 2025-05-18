@@ -19,7 +19,11 @@ app.use(bodyParser.json());
 
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://echelonsclub.com"],
+    origin: [
+      "http://localhost:5173",
+      "https://echelonsclub.com",
+      "https:www.echelonsclub.com",
+    ],
     methods: ["GET", "PUT", "POST", "PATCH", "DELETE", "OPTIONS"],
     credentials: true,
 
