@@ -22,7 +22,7 @@ app.use(
     origin: [
       "http://localhost:5173",
       "https://echelonsclub.com",
-      "https:www.echelonsclub.com",
+      "https://www.echelonsclub.com",
     ],
     methods: ["GET", "PUT", "POST", "PATCH", "DELETE", "OPTIONS"],
     credentials: true,
