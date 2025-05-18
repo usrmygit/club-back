@@ -1,0 +1,31 @@
+{
+  "name": "echellonserver",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "nodemon server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "axios": "^1.9.0",
+    "bcryptjs": "^3.0.2",
+    "body-parser": "^2.2.0",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "crypto": "^1.0.1",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "express-async-handler": "^1.2.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.14.1",
+    "node-device-detector": "^2.2.1",
+    "node-telegram-bot-api": "^0.66.0",
+    "nodemailer": "^7.0.0",
+    "nodemailer-express-handlebars": "^6.1.2",
+    "nodemon": "^3.1.10",
+    "ua-parser-js": "^2.0.3"
+  }
+}

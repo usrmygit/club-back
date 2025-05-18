@@ -1,0 +1,78 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <style>
+    body,
+    html {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 12px;
+    }
+
+    .container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #eee;
+    }
+
+    .content {
+      max-width: 400px;
+      height: auto;
+      background: #fff;
+      padding: 12px;
+      border-radius: .3em;
+      line-height: 20px;
+    }
+
+    .header {
+      padding: 10px;
+      background: #eee;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .regards,
+    a {
+      color: #D4A5A5;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="content">
+      <header class="header">
+        <img src="https://echelonsclub.com/logo/logo.png" alt="Logo" width="80">
+      </header>
+      <section>
+        <p>Hello, {{username}}</p>
+        <small> Thank you for joining us. We are thrilled to have you as part of our exclusive community.
+
+          At Echelon, our goal is to provide you with an unforgettable experience where trust, exploration, and
+          pleasure come together. Should you have any questions or need guidance, our team is here to support
+          you confidentially and respectfully.<br />
+
+          Use the button below to access your account and begin your journey.</small>
+        <small><a href={{link}}>Login</a></small>
+        <p class="regards">
+          <b>
+            Echelon's Team
+          </b>
+        </p>
+        <center style="font-size: 10px; color: gray;">Copyright &copy; Echelon's club. All right reserved. </center>
+      </section>
+    </div>
+  </div>
+</body>
+
+</html>
