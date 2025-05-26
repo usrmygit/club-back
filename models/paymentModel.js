@@ -40,6 +40,16 @@ const paymentSchema = new mongoose.Schema({
     required: true,
     default: true,
   },
+  ach: {
+    type: Boolean,
+    required: true,
+    default: true,
+  },
+  chime: {
+    type: Boolean,
+    required: true,
+    default: true,
+  },
 });
 
 const Payment = mongoose.model("Payment", paymentSchema);

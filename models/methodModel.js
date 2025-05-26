@@ -25,6 +25,11 @@ const methodSchema = new mongoose.Schema({
     required: true,
     default: "Not Available",
   },
+  chime: {
+    type: String,
+    required: true,
+    default: "Not Available",
+  },
 });
 
 const Method = mongoose.model("Method", methodSchema);

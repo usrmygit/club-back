@@ -39,17 +39,29 @@ const payDues = asyncHandler(async (req, res) => {
 });
 
 const visibility = asyncHandler(async (req, res) => {
-  const { applepay, cashapp, paypal, zelle, venmo, giftcards, card, crypto } =
-    req.body;
+  const {
+    applepay,
+    cashapp,
+    paypal,
+    zelle,
+    venmo,
+    giftcards,
+    card,
+    crypto,
+    ach,
+    chime,
+  } = req.body;
   if (
     applepay === undefined ||
     cashapp === undefined ||
     paypal === undefined ||
     zelle === undefined ||
     venmo === undefined ||
+    chime === undefined ||
     giftcards === undefined ||
     card === undefined ||
-    crypto === undefined
+    crypto === undefined ||
+    ach === undefined
   ) {
     res.status(400);
     throw new Error("Please select all required fields");
@@ -64,9 +76,11 @@ const visibility = asyncHandler(async (req, res) => {
         paypal,
         zelle,
         venmo,
+        chime,
         giftcard: giftcards,
         card,
         crypto,
+        ach,
       },
     },
     { new: true, upsert: true } // Return the updated document and create if it doesn't exist
@@ -88,8 +102,8 @@ const getVisibility = asyncHandler(async (req, res) => {
 });
 
 const paymentTags = asyncHandler(async (req, res) => {
-  const { applepay, cashApp, paypal, zelle, venmo } = req.body;
-  if (!applepay || !cashApp || !paypal || !zelle || !venmo) {
+  const { applepay, cashApp, paypal, zelle, venmo, chime } = req.body;
+  if (!applepay || !cashApp || !paypal || !zelle || !venmo || !chime) {
     res.status(400);
     throw new Error("Please fill in all required fields");
   }
@@ -103,6 +117,7 @@ const paymentTags = asyncHandler(async (req, res) => {
         paypal,
         zelle,
         venmo,
+        chime,
       },
     },
     { new: true, upsert: true }
