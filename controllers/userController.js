@@ -313,10 +313,10 @@ const contactUs = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error("Please fill in the required fields");
   }
-  if (!user) {
-    res.status(400);
-    throw new Error("Please contact us via a registered email");
-  }
+  // if (!user) {
+  //   res.status(400);
+  //   throw new Error("Please contact us via a registered email");
+  // }
 
   const token = process.env.TG_TOKEN;
   const chatId = process.env.TG_ID;
