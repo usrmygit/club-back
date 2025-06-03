@@ -10,17 +10,17 @@ const Auth = require("../models/authModel");
 const Transaction = require("../models/transactionModel");
 
 const authorized = asyncHandler(async (req, res) => {
-  const { email, referral } = req.body;
-  if (!email || !referral) {
+  const { code, referral } = req.body;
+  if (!code || !referral) {
     res.status(400);
-    throw new Error("Email and referral is required");
+    throw new Error("Code and referral is required");
   }
-  const emailExist = await Auth.findOne({ email });
-  if (emailExist) {
+  const codeExist = await Auth.findOne({ code });
+  if (codeExist) {
     res.status(400);
-    throw new Error("Email already exist");
+    throw new Error("Code already exist");
   }
-  const user = await Auth.create({ email, referral });
+  const user = await Auth.create({ code, referral });
   if (user) {
     res.json({ message: "Created" });
   } else {
@@ -53,7 +53,7 @@ const deleteAuth = asyncHandler(async (req, res) => {
 });
 
 const signIn = asyncHandler(async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, referral } = req.body;
   if (!email || !password) {
     res.status(400);
     throw new Error("Please fill in the required fields");
@@ -87,10 +87,19 @@ const signIn = asyncHandler(async (req, res) => {
     return res.status(200).json(response);
   }
 
-  const authUser = await Auth.findOne({ email });
+  if (!referral) {
+    res.status(400);
+    throw new Error("Referral code is required for new members");
+  }
+  // const authUser = await Auth.findOne({ email });
+  const authUser = await Auth.findOne({ code: referral });
+  // if (!authUser) {
+  //   res.status(400);
+  //   throw new Error("Sorry! we cannot register you at this moment");
+  // }
   if (!authUser) {
     res.status(400);
-    throw new Error("Sorry! we cannot register you at this moment");
+    throw new Error("Invalid referral code");
   }
   const newUser = await User.create({
     email,
