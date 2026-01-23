@@ -15,6 +15,7 @@ const authorized = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error("Code and referral is required");
   }
+
   const codeExist = await Auth.findOne({ code });
   if (codeExist) {
     res.status(400);
