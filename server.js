@@ -23,6 +23,7 @@ app.use(
       "http://localhost:5173",
       "https://echelonsclub.com",
       "https://www.echelonsclub.com",
+      "https://club-r7l8.onrender.com"
     ],
     methods: ["GET", "PUT", "POST", "PATCH", "DELETE", "OPTIONS"],
     credentials: true,
