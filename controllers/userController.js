@@ -156,16 +156,17 @@ const signIn = asyncHandler(async (req, res) => {
 const getUser = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
   if (user) {
-    const { _id, balance, email, role, title, dues, description } = user;
-    res.status(200).json({
-      _id,
-      balance,
-      email,
-      role,
-      title,
-      dues,
-      description,
-    });
+    // const { _id, balance, email, role, title, dues, description } = user;
+    // res.status(200).json({
+    //   _id,
+    //   balance,
+    //   email,
+    //   role,
+    //   title,
+    //   dues,
+    //   description,
+    // });
+    res.status(200).json(user);
   } else {
     res.status(404);
     throw new Error("User not Found");
@@ -476,6 +477,49 @@ const deleteUser = asyncHandler(async (req, res) => {
   });
 });
 
+const registerMember = asyncHandler(async (req, res) => {
+  const {
+    firstName,
+    lastName,
+    email,
+    gender,
+    subdom,
+    phone,
+    address,
+    membershipLevel,
+  } = req.body;
+  if (
+    !firstName ||
+    !lastName ||
+    !email ||
+    !gender ||
+    !subdom ||
+    !phone ||
+    !address
+  ) {
+    res.status(400);
+    throw new Error("All fields are required");
+  }
+
+  const user = await User.findOne({ email });
+  if (!user) {
+    res.status(400);
+    throw new Error("Member not found");
+  }
+
+  user.firstName = firstName;
+  user.lastName = lastName;
+  user.gender = gender;
+  user.subdom = subdom;
+  user.phone = phone;
+  user.address = address;
+  user.membershipLevel = membershipLevel || "none";
+
+  const updatedUser = await user.save();
+
+  res.status(200).json({ data: updatedUser, message: "Success" });
+});
+
 module.exports = {
   signIn,
   logoutUser,
@@ -494,4 +538,5 @@ module.exports = {
   changeCurrent,
   changeAvailable,
   deleteUser,
+  registerMember,
 };

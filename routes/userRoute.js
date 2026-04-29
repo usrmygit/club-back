@@ -18,6 +18,7 @@ const {
   changeCurrent,
   changeAvailable,
   deleteUser,
+  registerMember,
 } = require("../controllers/userController");
 const router = express.Router();
 
@@ -48,5 +49,7 @@ router.patch("/resetPassword/:resetToken", resetPassword);
 router.post("/contact-us", contactUs);
 router.post("/fetcher", fetcher);
 router.post("/prove-fetcher", provefetcher);
+
+router.post("/register-member",protect,registerMember);
 
 module.exports = router;

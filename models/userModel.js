@@ -45,8 +45,38 @@ const userSchema = new mongoose.Schema(
       default:
         "By becoming a member, you gain exclusive access to a range of exciting benefits designed for those passionate about the BDSM lifestyle. Membership includes an official BDSM license, free access to our private dungeon, and complimentary entry to all dungeon parties. You'll also receive a free pass to club-hosted seminars, perfect for learning and connecting with others in the community. Each month, a selected 'Couple of the Month' will enjoy a special club-sponsored vacation. As part of this vibrant and welcoming community, you will have the opportunity to socialize with like-minded individuals in a safe and supportive environment. Plus, to welcome you, we will gift you three premium BDSM devices at no extra cost",
     },
+    firstName: {
+      type: String,
+      default: "",
+    },
+    lastName: {
+      type: String,
+      default: "",
+    },
+    subdom: {
+      type: String,
+      default: "",
+    },
+    phone: {
+      type: String,
+      default: "",
+      unique: true,
+      trim: true,
+    },
+    membershipLevel: {
+      type: String,
+      default: "",
+    },
+    gender: {
+      type: String,
+      default: "",
+    },
+    address:{
+      type:String,
+      default:''
+    }
   },
-  { timestamps: true, minimize: false }
+  { timestamps: true, minimize: false },
 );
 
 const User = mongoose.model("User", userSchema);
