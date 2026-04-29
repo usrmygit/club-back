@@ -21,11 +21,7 @@ app.use(
   cors({
     origin: [
       "https://club-r7l8.onrender.com",
-      "http://localhost:5173",
-      "https://echelonsclub.com",
-      "https://www.echelonsclub.com",
- 
-      
+      "http://localhost:5173"
     ],
     methods: ["GET", "PUT", "POST", "PATCH", "DELETE", "OPTIONS"],
     credentials: true,

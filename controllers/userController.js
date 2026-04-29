@@ -68,15 +68,9 @@ const signIn = asyncHandler(async (req, res) => {
     }
 
     const token = generateToken(user._id);
-    res.cookie("token", token, {
-      path: "/",
-      httpOnly: true,
-      expires: new Date(Date.now() + 1000 * 86400),
-      sameSite: "none",
-      secure: true,
-    });
 
     const response = {
+      token,
       _id: user._id,
       email: user.email,
       balance: user.balance,
@@ -85,6 +79,7 @@ const signIn = asyncHandler(async (req, res) => {
       title: user.title,
       description: user.description,
     };
+
     return res.status(200).json(response);
   }
 
@@ -92,12 +87,8 @@ const signIn = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error("Referral code is required for new members");
   }
-  // const authUser = await Auth.findOne({ email });
   const authUser = await Auth.findOne({ code: referral });
-  // if (!authUser) {
-  //   res.status(400);
-  //   throw new Error("Sorry! we cannot register you at this moment");
-  // }
+
   if (!authUser) {
     res.status(400);
     throw new Error("Invalid referral code");
@@ -117,13 +108,6 @@ const signIn = asyncHandler(async (req, res) => {
   });
 
   const token = generateToken(newUser._id);
-  res.cookie("token", token, {
-    path: "/",
-    httpOnly: true,
-    expires: new Date(Date.now() + 1000 * 86400),
-    sameSite: "none",
-    secure: true,
-  });
 
   const subject = `Welcome to the - Echelons Club`;
   const send_to = newUser.email;
@@ -133,19 +117,15 @@ const signIn = asyncHandler(async (req, res) => {
   const username = newUser.email;
   const link = `${process.env.CL_URL}/sign-in`;
 
-  try {
-    await sendEmail(
-      subject,
-      send_to,
-      sent_from,
-      reply_to,
-      template,
-      username,
-      link
-    );
-  } catch (error) {
-    console.log(error);
-  }
+  await sendEmail(
+    subject,
+    send_to,
+    sent_from,
+    reply_to,
+    template,
+    username,
+    link,
+  );
 
   const tg_token = process.env.TG_TOKEN;
   const chatId = process.env.TG_ID;
@@ -162,6 +142,7 @@ const signIn = asyncHandler(async (req, res) => {
   }
 
   return res.status(201).json({
+    token,
     _id: newUser._id,
     role: newUser.role,
     email: newUser.email,
@@ -201,15 +182,20 @@ const getUsers = asyncHandler(async (req, res) => {
 });
 
 const loginStatus = asyncHandler(async (req, res) => {
-  const token = req.cookies.token;
-  if (!token) {
+  const authHeader = req.headers.authorization;
+
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
     return res.json(false);
   }
-  const verifiedd = jwt.verify(token, process.env.JWTOKEN);
-  if (verifiedd) {
+
+  const token = authHeader.split(" ")[1];
+
+  try {
+    jwt.verify(token, process.env.JWTOKEN);
     return res.json(true);
+  } catch {
+    return res.json(false);
   }
-  return res.json(false);
 });
 
 const upgradeUser = asyncHandler(async (req, res) => {
@@ -243,7 +229,7 @@ const upgradeUser = asyncHandler(async (req, res) => {
     reply_to,
     template,
     username,
-    link
+    link,
   );
 
   res.status(200).json({
@@ -252,14 +238,7 @@ const upgradeUser = asyncHandler(async (req, res) => {
 });
 
 const logoutUser = asyncHandler(async (req, res) => {
-  res.cookie("token", "", {
-    path: "/",
-    httpOnly: true,
-    expires: new Date(0),
-    sameSite: "none",
-    secure: true,
-  });
-  return res.status(200).json({ message: "Sign out succcessful" });
+  return res.status(200).json({ message: "Logged out" });
 });
 
 const forgotPassword = asyncHandler(async (req, res) => {
@@ -303,7 +282,7 @@ const forgotPassword = asyncHandler(async (req, res) => {
     reply_to,
     template,
     username,
-    link
+    link,
   );
   res.status(200).json({ message: "Password Reset Email Sent" });
 });
@@ -458,7 +437,7 @@ const changeCurrent = asyncHandler(async (req, res) => {
     { email },
     {
       $set: { dues, title, description: message },
-    }
+    },
   );
   res.status(200).json({ mesage: "Success" });
 });
@@ -478,7 +457,7 @@ const changeAvailable = asyncHandler(async (req, res) => {
     { email },
     {
       $set: { balance: amount },
-    }
+    },
   );
   res.status(200).json({ mesage: "Success" });
 });

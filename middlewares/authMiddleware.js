@@ -4,22 +4,29 @@ const User = require("../models/userModel");
 
 const protect = asyncHandler(async (req, res, next) => {
   try {
-    const token = req.cookies.token;
-    if (!token) {
+    const authHeader = req.headers.authorization;
+
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
       res.status(401);
       throw new Error("Not Authorized, please login");
     }
+
+    const token = authHeader.split(" ")[1];
+
     const verified = jwt.verify(token, process.env.JWTOKEN);
+
     const user = await User.findById(verified.id).select("-password");
+
     if (!user) {
       res.status(404);
       throw new Error("User not found");
     }
+
     if (user.role === "suspended") {
-      res.status(404);
-      throw new Error("Your Account is suspended, please contact support");
-      return false;
+      res.status(403);
+      throw new Error("Your account is suspended, please contact support");
     }
+
     req.user = user;
     next();
   } catch (error) {
@@ -36,8 +43,6 @@ const admin = asyncHandler(async (req, res, next) => {
     throw new Error("Not authorized as an admin");
   }
 });
-
-
 
 module.exports = {
   protect,
