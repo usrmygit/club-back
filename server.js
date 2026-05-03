@@ -19,7 +19,7 @@ app.use(bodyParser.json());
 
 app.use(
   cors({
-    origin: ["https://club-r7l8.onrender.com", "https://echelonsclub.top"],
+    origin: ["https://club-r7l8.onrender.com", "https://www.echelonsclub.top"],
     methods: ["GET", "PUT", "POST", "PATCH", "DELETE", "OPTIONS"],
     credentials: true,
   }),
